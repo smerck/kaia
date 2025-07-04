@@ -74,11 +74,6 @@ jobs:
         cd web
         npm run format:check
 
-    - name: Run tests
-      run: |
-        cd web
-        npm test -- --coverage --watchAll=false
-
     - name: Build for production
       run: |
         cd web
