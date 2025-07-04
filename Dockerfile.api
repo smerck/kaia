@@ -1,0 +1,15 @@
+# Build stage
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o kaia-api ./cmd/kaia-api
+
+# Final image
+FROM alpine:latest
+WORKDIR /app
+COPY --from=builder /app/kaia-api .
+EXPOSE 8080
+ENV ANTHROPIC_API_KEY=""
+CMD ["./kaia-api"] 

@@ -1,0 +1,13 @@
+api:
+  image: kaia-api:latest
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 8080
+
+web:
+  image: kaia-web:latest
+  replicas: 1
+  service:
+    type: ClusterIP
+    port: 80 

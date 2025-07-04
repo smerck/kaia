@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaia-web
+spec:
+  replicas: {{ .Values.web.replicas }}
+  selector:
+    matchLabels:
+      app: kaia-web
+  template:
+    metadata:
+      labels:
+        app: kaia-web
+    spec:
+      containers:
+        - name: web
+          image: {{ .Values.web.image }}
+          ports:
+            - containerPort: 80 
