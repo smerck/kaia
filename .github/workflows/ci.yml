@@ -29,9 +29,10 @@ jobs:
       run: go mod download
 
     - name: Run linter
-      run: |
-        go install golang.org/x/lint/golint@latest
-        golint -set_exit_status ./...
+      uses: golangci/golangci-lint-action@v4
+      with:
+        version: latest
+        args: --timeout=5m
 
     - name: Run tests
       run: go test -v -race -coverprofile=coverage.out ./...
@@ -67,6 +68,11 @@ jobs:
       run: |
         cd web
         npm run lint
+
+    - name: Check formatting
+      run: |
+        cd web
+        npm run format:check
 
     - name: Run tests
       run: |

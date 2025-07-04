@@ -1,0 +1,59 @@
+run:
+  timeout: 5m
+  go: "1.22"
+
+linters:
+  enable:
+    - gofmt
+    - goimports
+    - govet
+    - errcheck
+    - staticcheck
+    - gosimple
+    - ineffassign
+    - unused
+    - misspell
+    - gosec
+    - gocritic
+    - revive
+    - gocyclo
+    - dupl
+    - goconst
+    - gocognit
+    - gomnd
+    - lll
+    - nakedret
+    - prealloc
+    - scopelint
+    - stylecheck
+    - unparam
+    - whitespace
+    - wsl
+    - noctx
+    - nlreturn
+    - paralleltest
+    - tagliatelle
+    - tenv
+    - tparallel
+    - wrapcheck
+    - exhaustive
+    - forbidigo
+    - gci
+    - godot
+    - godox
+    - goerr113
+    - gofumpt
+    - gomodguard
+    - goprintffuncname
+    - nolintlint
+    - predeclared
+    - promlinter
+    - rowserrcheck
+    - structcheck
+    - typecheck
+    - unconvert
+    - varcheck
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0 
