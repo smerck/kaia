@@ -1,4 +1,4 @@
-.PHONY: api web web-install web-build web-dev test all
+.PHONY: api web web-install web-build web-dev test lint lint-go lint-web all
 
 # Run the Go API server
 api:
@@ -20,6 +20,19 @@ web-dev:
 # Run all Go tests
 test:
 	go test ./...
+
+# Run Go linting
+lint-go:
+	@echo "Running Go linter..."
+	golangci-lint run
+
+# Run frontend linting
+lint-web:
+	@echo "Running frontend linter..."
+	cd web && npm run lint
+
+# Run all linting
+lint: lint-go lint-web
 
 # Run both API and web (dev mode, requires two terminals)
 all: api web-dev

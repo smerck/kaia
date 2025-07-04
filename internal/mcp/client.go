@@ -6,13 +6,13 @@ import (
 	"log"
 )
 
-// MCPClient represents a client for interacting with MCP servers
+// MCPClient represents a client for interacting with MCP servers.
 type MCPClient struct {
 	eksClient        *EKSClient
 	cloudwatchClient *CloudWatchClient
 }
 
-// NewMCPClient creates a new MCP client
+// NewMCPClient creates a new MCP client.
 func NewMCPClient() *MCPClient {
 	return &MCPClient{
 		eksClient:        NewEKSClient(),
@@ -20,7 +20,7 @@ func NewMCPClient() *MCPClient {
 	}
 }
 
-// GatherClusterContext collects relevant data about a cluster for troubleshooting
+// GatherClusterContext collects relevant data about a cluster for troubleshooting.
 func (c *MCPClient) GatherClusterContext(ctx context.Context, clusterName string) (string, error) {
 	log.Printf("[MCP] Gathering context for cluster: %s", clusterName)
 

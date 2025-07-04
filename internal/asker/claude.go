@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -21,7 +21,7 @@ func NewClaudeAsker() *ClaudeAsker {
 type claudeMessageRequest struct {
 	Model     string          `json:"model"`
 	Messages  []claudeMessage `json:"messages"`
-	MaxTokens int             `json:"max_tokens"`
+	MaxTokens int             `json:"maxTokens"`
 }
 
 type claudeMessage struct {
@@ -74,7 +74,10 @@ func (a *ClaudeAsker) Ask(ctx context.Context, prompt, cluster string) (string, 
 	}
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
 	log.Printf("[Claude] Response status: %d, body: %s\n", resp.StatusCode, string(body))
 
 	if resp.StatusCode != 200 {

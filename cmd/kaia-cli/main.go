@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"flag"
-	"fmt"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -26,28 +26,28 @@ func main() {
 	flag.Parse()
 
 	if *prompt == "" {
-		fmt.Println("--prompt is required")
+		log.Println("--prompt is required")
 		os.Exit(1)
 	}
 
 	reqBody, _ := json.Marshal(AskRequest{Prompt: *prompt, Cluster: *cluster})
 	resp, err := http.Post(*apiURL, "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
-		fmt.Printf("Request failed: %v\n", err)
+		log.Printf("Request failed: %v", err)
 		os.Exit(1)
 	}
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != 200 {
-		fmt.Printf("API error: %s\n", string(body))
+		log.Printf("API error: %s", string(body))
 		os.Exit(1)
 	}
 
 	var askResp AskResponse
 	if err := json.Unmarshal(body, &askResp); err != nil {
-		fmt.Printf("Invalid response: %v\n", err)
+		log.Printf("Invalid response: %v", err)
 		os.Exit(1)
 	}
-	fmt.Println(askResp.Response)
+	log.Println(askResp.Response)
 }

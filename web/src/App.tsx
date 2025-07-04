@@ -19,7 +19,7 @@ function App() {
     e.preventDefault();
     if (!input.trim()) return;
     const userMsg: Message = { sender: 'user', text: input, backend };
-    setMessages((msgs) => [...msgs, userMsg]);
+    setMessages(msgs => [...msgs, userMsg]);
     setLoading(true);
     try {
       const res = await fetch(API_URL, {
@@ -28,12 +28,12 @@ function App() {
         body: JSON.stringify({ prompt: input, backend }),
       });
       const data = await res.json();
-      setMessages((msgs) => [
+      setMessages(msgs => [
         ...msgs,
         { sender: 'agent', text: data.response || 'No response', backend },
       ]);
-    } catch (err) {
-      setMessages((msgs) => [
+    } catch {
+      setMessages(msgs => [
         ...msgs,
         { sender: 'agent', text: 'Error contacting API.', backend },
       ]);
@@ -51,11 +51,20 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '40px auto', fontFamily: 'sans-serif' }}>
+    <div
+      style={{ maxWidth: 600, margin: '40px auto', fontFamily: 'sans-serif' }}
+    >
       <h2>kaia: Kubernetes AI Agent</h2>
-      
+
       {/* Backend Toggle */}
-      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div
+        style={{
+          marginBottom: 16,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}
+      >
         <span>Backend:</span>
         <label style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <input
@@ -63,7 +72,7 @@ function App() {
             name="backend"
             value="openai"
             checked={backend === 'openai'}
-            onChange={(e) => setBackend(e.target.value as 'openai' | 'claude')}
+            onChange={e => setBackend(e.target.value as 'openai' | 'claude')}
           />
           OpenAI
         </label>
@@ -73,25 +82,45 @@ function App() {
             name="backend"
             value="claude"
             checked={backend === 'claude'}
-            onChange={(e) => setBackend(e.target.value as 'openai' | 'claude')}
+            onChange={e => setBackend(e.target.value as 'openai' | 'claude')}
           />
           Claude
         </label>
       </div>
 
-      <div style={{ border: '1px solid #ccc', borderRadius: 8, padding: 16, minHeight: 300, background: '#fafbfc' }}>
-        {messages.length === 0 && <div style={{ color: '#888' }}>Ask me about your Kubernetes environment!</div>}
+      <div
+        style={{
+          border: '1px solid #ccc',
+          borderRadius: 8,
+          padding: 16,
+          minHeight: 300,
+          background: '#fafbfc',
+        }}
+      >
+        {messages.length === 0 && (
+          <div style={{ color: '#888' }}>
+            Ask me about your Kubernetes environment!
+          </div>
+        )}
         {messages.map((msg, i) => (
-          <div key={i} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left', margin: '8px 0' }}>
-            <div style={{
-              display: 'inline-block',
-              background: msg.sender === 'user' ? '#d1e7dd' : '#e7eaf6',
-              color: '#222',
-              borderRadius: 16,
-              padding: '8px 16px',
-              maxWidth: '80%',
-              textAlign: 'left',
-            }}>
+          <div
+            key={i}
+            style={{
+              textAlign: msg.sender === 'user' ? 'right' : 'left',
+              margin: '8px 0',
+            }}
+          >
+            <div
+              style={{
+                display: 'inline-block',
+                background: msg.sender === 'user' ? '#d1e7dd' : '#e7eaf6',
+                color: '#222',
+                borderRadius: 16,
+                padding: '8px 16px',
+                maxWidth: '80%',
+                textAlign: 'left',
+              }}
+            >
               {renderMessage(msg)}
             </div>
             {msg.backend && (
@@ -103,16 +132,34 @@ function App() {
         ))}
         {loading && <div style={{ color: '#888' }}>Agent is thinking...</div>}
       </div>
-      <form onSubmit={sendMessage} style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+      <form
+        onSubmit={sendMessage}
+        style={{ marginTop: 16, display: 'flex', gap: 8 }}
+      >
         <input
           type="text"
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder="Type your question..."
-          style={{ flex: 1, padding: 8, borderRadius: 8, border: '1px solid #ccc' }}
+          style={{
+            flex: 1,
+            padding: 8,
+            borderRadius: 8,
+            border: '1px solid #ccc',
+          }}
           disabled={loading}
         />
-        <button type="submit" disabled={loading || !input.trim()} style={{ padding: '8px 16px', borderRadius: 8, background: '#1976d2', color: '#fff', border: 'none' }}>
+        <button
+          type="submit"
+          disabled={loading || !input.trim()}
+          style={{
+            padding: '8px 16px',
+            borderRadius: 8,
+            background: '#1976d2',
+            color: '#fff',
+            border: 'none',
+          }}
+        >
           Send
         </button>
       </form>

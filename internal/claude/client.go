@@ -5,16 +5,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
 )
 
 type ClaudeRequest struct {
-	Model             string `json:"model"`
-	Prompt            string `json:"prompt"`
-	MaxTokensToSample int    `json:"max_tokens_to_sample"`
+	Model             string   `json:"model"`
+	MaxTokensToSample int      `json:"maxTokensToSample"`
+	Prompt            string   `json:"prompt"`
+	StopSequences     []string `json:"stopSequences"`
 }
 
 type ClaudeResponse struct {
@@ -58,7 +59,10 @@ func AskClaude(prompt, cluster string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
 	log.Printf("[Claude] Response status: %d, body: %s\n", resp.StatusCode, string(body))
 
 	if resp.StatusCode != 200 {
@@ -70,5 +74,6 @@ func AskClaude(prompt, cluster string) (string, error) {
 		log.Printf("[Claude] JSON decode error: %v\n", err)
 		return "", err
 	}
+
 	return cr.Completion, nil
 }

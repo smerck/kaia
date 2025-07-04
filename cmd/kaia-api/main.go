@@ -10,7 +10,7 @@ import (
 )
 
 type Config struct {
-	AskerBackend string `json:"asker_backend"`
+	AskerBackend string `json:"askerBackend"`
 }
 
 func loadConfig() Config {

@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/smerck/kaia/internal/asker"
 	"github.com/smerck/kaia/internal/mcp"
@@ -36,7 +37,7 @@ func (a *Agent) Ask(ctx context.Context, prompt, cluster string) (string, error)
 		context, err := a.mcpClient.GatherClusterContext(ctx, cluster)
 		if err != nil {
 			// Log error but continue without context
-			fmt.Printf("Warning: Could not gather cluster context: %v\n", err)
+			log.Printf("Warning: Could not gather cluster context: %v", err)
 		} else {
 			// Enhance the prompt with cluster context
 			enhancedPrompt := fmt.Sprintf(`

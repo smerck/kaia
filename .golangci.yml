@@ -20,11 +20,9 @@ linters:
     - dupl
     - goconst
     - gocognit
-    - gomnd
     - lll
     - nakedret
     - prealloc
-    - scopelint
     - stylecheck
     - unparam
     - whitespace
@@ -33,7 +31,6 @@ linters:
     - nlreturn
     - paralleltest
     - tagliatelle
-    - tenv
     - tparallel
     - wrapcheck
     - exhaustive
@@ -49,10 +46,8 @@ linters:
     - predeclared
     - promlinter
     - rowserrcheck
-    - structcheck
     - typecheck
     - unconvert
-    - varcheck
 
 issues:
   max-issues-per-linter: 0
