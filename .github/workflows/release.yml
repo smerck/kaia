@@ -89,7 +89,7 @@ jobs:
         helm package . --version ${{ github.event.release.tag_name }}
 
     - name: Create Release Assets
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: helm/kaia/*.tgz
         tag_name: ${{ github.event.release.tag_name }}
